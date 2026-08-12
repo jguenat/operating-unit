@@ -9,7 +9,6 @@ from odoo import api, fields, models
 
 
 class MisReportInstance(models.Model):
-
     _inherit = "mis.report.instance"
 
     operating_unit_ids = fields.Many2many(
@@ -25,7 +24,6 @@ class MisReportInstance(models.Model):
 
 
 class MisReportInstancePeriod(models.Model):
-
     _inherit = "mis.report.instance.period"
 
     operating_unit_ids = fields.Many2many(
@@ -40,9 +38,7 @@ class MisReportInstancePeriod(models.Model):
             self.operating_unit_ids = False
 
     def _get_additional_move_line_filter(self):
-        aml_domain = super(
-            MisReportInstancePeriod, self
-        )._get_additional_move_line_filter()
+        aml_domain = super()._get_additional_move_line_filter()
         # we need sudo because, imagine a user having access
         # to operating unit A, viewing a report with 3 columns
         # for OU A, B, C: in columns B and C, self.operating_unit_ids
