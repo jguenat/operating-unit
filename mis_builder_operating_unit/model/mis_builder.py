@@ -13,14 +13,17 @@ class MisReportInstance(models.Model):
 
     operating_unit_ids = fields.Many2many(
         "operating.unit",
+        compute="_compute_operating_unit_ids",
+        store=True,
+        readonly=False,
     )
 
     has_no_operating_unit = fields.Boolean()
 
-    @api.onchange("has_no_operating_unit")
-    def onchange_has_no_operating_unit(self):
-        if self.has_no_operating_unit:
-            self.operating_unit_ids = False
+    @api.depends("has_no_operating_unit")
+    def _compute_operating_unit_ids(self):
+        for record in self.filtered("has_no_operating_unit"):
+            record.operating_unit_ids = False
 
 
 class MisReportInstancePeriod(models.Model):
@@ -28,14 +31,17 @@ class MisReportInstancePeriod(models.Model):
 
     operating_unit_ids = fields.Many2many(
         "operating.unit",
+        compute="_compute_operating_unit_ids",
+        store=True,
+        readonly=False,
     )
 
     has_no_operating_unit = fields.Boolean()
 
-    @api.onchange("has_no_operating_unit")
-    def onchange_has_no_operating_unit(self):
-        if self.has_no_operating_unit:
-            self.operating_unit_ids = False
+    @api.depends("has_no_operating_unit")
+    def _compute_operating_unit_ids(self):
+        for record in self.filtered("has_no_operating_unit"):
+            record.operating_unit_ids = False
 
     def _get_additional_move_line_filter(self):
         aml_domain = super()._get_additional_move_line_filter()
